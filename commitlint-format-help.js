@@ -1,5 +1,3 @@
-// This file adds custom help message when commits fail
-
 import { format } from '@commitlint/format';
 
 const validTypes = [
@@ -17,8 +15,17 @@ const validTypes = [
 ];
 
 export default function formatter(report) {
-	const defaultOutput = format(report);
+	const output = format(report);
 
+	// Check if commitlint found any errors
+	const isValid = report.results?.[0]?.valid === true;
+
+	if (isValid) {
+		// If commit is valid → don't print extra helper block
+		return output;
+	}
+
+	// Otherwise → append guidance
 	const help = `
 ──────────────────────────────────────────────
 Valid commit types:
@@ -39,5 +46,5 @@ Format:
 ──────────────────────────────────────────────
 `;
 
-	return defaultOutput + help;
+	return output + help;
 }
