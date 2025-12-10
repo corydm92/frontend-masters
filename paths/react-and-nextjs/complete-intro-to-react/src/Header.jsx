@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 
 export default function Header() {
     const [cart] = useContext(CartContext);
+
     return (
         <nav>
             <Link to="/">
