@@ -2,7 +2,7 @@
   "name": "complete-intro-to-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "format": "prettier --write \"src/**/*.{js, jsx, ts, tsx, css, html}\"",
     "lint": "eslint",
