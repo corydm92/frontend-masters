@@ -7,7 +7,13 @@ import ErrorBoundary from "./ErrorBoundary";
 
 const App = () => {
     const router = createRouter({ routeTree });
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                experimental_prefetchInRender: true,
+            },
+        },
+    });
     return (
         <StrictMode>
             <QueryClientProvider client={queryClient}>
