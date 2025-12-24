@@ -1,0 +1,14 @@
+{
+  "moduleLoading": {
+    "prefix": "auto",
+    "crossOrigin": null
+  },
+  "moduleMap": {
+    "./src/ClientComponent.jsx": {
+      "*": {
+        "specifier": "file:///Users/personal/Documents/code/projects/frontend-masters/paths/react-and-nextjs/intermediate-react-v6/intermediate-react-v6/no-framework/src/ClientComponent.jsx",
+        "name": "*"
+      }
+    }
+  }
+}

@@ -27,7 +27,7 @@ const config = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			inject: true,
-			public: '/assets/',
+			publicPath: '/assets/',
 			template: './index.html',
 		}),
 		new ReactServerWebpackPlugin({ isServer: false }),
@@ -36,7 +36,7 @@ const config = {
 		chunkFilename: development
 			? '[id].chunk.js'
 			: '[id].[contenthash].chunk.js',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(__dirname, 'dist/'),
 		filename: '[name].js',
 		clean: true,
 	},
