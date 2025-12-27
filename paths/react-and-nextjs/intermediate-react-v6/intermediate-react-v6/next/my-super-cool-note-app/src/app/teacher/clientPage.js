@@ -12,6 +12,8 @@ export default function TeacherClientPage({ fetchNotes, initialNotes }) {
 			}
 
 			const newNotes = await fetchNotes(since);
+
+			console.log(newNotes);
 			setNotes([...notes, ...newNotes]);
 		}, 5000);
 
