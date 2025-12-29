@@ -1,7 +1,13 @@
 'use client';
 import updateUsername from './updateUsername';
+import { useContext } from 'react';
+import { AppContext } from '@/app/context/Providers';
 
 export default function ClientWhoAmIPage({ children, id }) {
+	const ctx = useContext(AppContext);
+
+	console.log(ctx);
+
 	return (
 		<div>
 			{children}
