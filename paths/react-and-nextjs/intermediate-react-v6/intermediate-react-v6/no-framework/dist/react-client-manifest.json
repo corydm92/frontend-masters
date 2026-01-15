@@ -1,0 +1,12 @@
+{
+  "file:///Users/personal/Documents/code/projects/frontend-masters/paths/react-and-nextjs/intermediate-react-v6/intermediate-react-v6/no-framework/src/ClientComponent.jsx": {
+    "id": "./src/ClientComponent.jsx",
+    "chunks": [
+      "vendors-node_modules_react_jsx-dev-runtime_js",
+      "vendors-node_modules_react_jsx-dev-runtime_js.chunk.js",
+      "client0",
+      "client0.chunk.js"
+    ],
+    "name": "*"
+  }
+}
