@@ -1,26 +1,25 @@
-import React, { useState, type Dispatch, type SetStateAction } from 'react';
+import React, { useState, useReducer, type ComponentPropsWithoutRef } from 'react';
 import { Card } from '$/common/components/card';
 import { Button } from './button';
+import { counterReducer, initialState } from './counter-reducer';
 
 type CounterControlsProps = {
-  setCount: Dispatch<SetStateAction<number>>;
+  onDecrement: () => void;
+  onReset: () => void;
+  onIncrement: () => void;
 };
 
-type CounterFormProps = {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
-};
-
-const CounterControls = ({ setCount }: CounterControlsProps) => {
+const CounterControls = ({ onDecrement, onReset, onIncrement }: CounterControlsProps) => {
   return (
     <div className="flex gap-2">
-      <Button onClick={() => setCount((prev) => prev - 1)}>➖ Decrement</Button>
-      <Button onClick={() => setCount(0)}>🔁 Reset</Button>
-      <Button onClick={() => setCount((prev) => prev + 1)}>➕ Increment</Button>
+      <Button onClick={onDecrement}>➖ Decrement</Button>
+      <Button onClick={onReset}>🔁 Reset</Button>
+      <Button onClick={onIncrement}>➕ Increment</Button>
     </div>
   );
 };
 
-const CounterForm = ({ onSubmit }: CounterFormProps) => {
+const CounterForm = ({ onSubmit }: ComponentPropsWithoutRef<'form'>) => {
   const [draftCount, setDraftCount] = useState(0);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -43,7 +42,13 @@ const CounterForm = ({ onSubmit }: CounterFormProps) => {
 };
 
 export const Counter = () => {
-  const [count, setCount] = useState(0);
+  const [{ count }, dispatch] = useReducer(counterReducer, initialState);
+
+  dispatch({ type: 'decrement' });
+
+  const setCount = (value: number) => dispatch({ type: 'setCount', payload: value });
+  const increment = () => dispatch({ type: 'increment' });
+  const decrement = () => dispatch({ type: 'decrement' });
 
   const handleCounterFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -58,7 +63,11 @@ export const Counter = () => {
       <h1>Days Since the Last Accident</h1>
       <p className="text-6xl">{count}</p>
 
-      <CounterControls setCount={setCount} />
+      <CounterControls
+        onDecrement={decrement}
+        onReset={() => setCount(0)}
+        onIncrement={increment}
+      />
       <CounterForm onSubmit={handleCounterFormSubmit} />
     </Card>
   );

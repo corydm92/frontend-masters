@@ -1,10 +1,13 @@
-export const Button = ({ children, onClick }: { children: string; onClick?: () => void }) => {
+import type { ComponentPropsWithoutRef } from 'react';
+
+export const Button = (props: ComponentPropsWithoutRef<'button'>) => {
   return (
     <button
+      {...props}
       className="bg-primary-400 hover:bg-primary-500 rounded px-4 py-2 font-bold text-white"
-      onClick={onClick}
+      onClick={props.onClick}
     >
-      {children}
+      {props.children}
     </button>
   );
 };
