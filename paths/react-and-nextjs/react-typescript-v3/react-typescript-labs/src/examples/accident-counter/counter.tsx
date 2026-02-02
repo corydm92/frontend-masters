@@ -1,15 +1,15 @@
-import React, { useState, useReducer, type ComponentPropsWithoutRef } from 'react';
+import React, { useState, useReducer, type ActionDispatch } from 'react';
 import { Card } from '$/common/components/card';
 import { Button } from './button';
-import { counterReducer, initialState } from './counter-reducer';
+import { counterReducer, initialState, type CounterAction } from './counter-reducer';
 
-type CounterControlsProps = {
-  onDecrement: () => void;
-  onReset: () => void;
-  onIncrement: () => void;
-};
+type DispatchCountAction = ActionDispatch<[action: CounterAction]>;
 
-const CounterControls = ({ onDecrement, onReset, onIncrement }: CounterControlsProps) => {
+const CounterControls = ({ dispatch }: { dispatch: DispatchCountAction }) => {
+  const onReset = () => dispatch({ type: 'setCount', payload: 0 });
+  const onIncrement = () => dispatch({ type: 'increment' });
+  const onDecrement = () => dispatch({ type: 'decrement' });
+
   return (
     <div className="flex gap-2">
       <Button onClick={onDecrement}>➖ Decrement</Button>
@@ -19,11 +19,19 @@ const CounterControls = ({ onDecrement, onReset, onIncrement }: CounterControlsP
   );
 };
 
-const CounterForm = ({ onSubmit }: ComponentPropsWithoutRef<'form'>) => {
+const CounterForm = ({ dispatch }: { dispatch: DispatchCountAction }) => {
   const [draftCount, setDraftCount] = useState(0);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setDraftCount(e.target.valueAsNumber);
+  };
+
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    const inputValue = Number(new FormData(e.currentTarget).get('input-count'));
+
+    dispatch({ type: 'setCount', payload: inputValue });
   };
 
   return (
@@ -44,31 +52,13 @@ const CounterForm = ({ onSubmit }: ComponentPropsWithoutRef<'form'>) => {
 export const Counter = () => {
   const [{ count }, dispatch] = useReducer(counterReducer, initialState);
 
-  dispatch({ type: 'decrement' });
-
-  const setCount = (value: number) => dispatch({ type: 'setCount', payload: value });
-  const increment = () => dispatch({ type: 'increment' });
-  const decrement = () => dispatch({ type: 'decrement' });
-
-  const handleCounterFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    const inputValue = Number(new FormData(e.currentTarget).get('input-count'));
-
-    setCount(inputValue);
-  };
-
   return (
     <Card className="border-primary-500 flex w-2/3 flex-col items-center gap-8">
       <h1>Days Since the Last Accident</h1>
       <p className="text-6xl">{count}</p>
 
-      <CounterControls
-        onDecrement={decrement}
-        onReset={() => setCount(0)}
-        onIncrement={increment}
-      />
-      <CounterForm onSubmit={handleCounterFormSubmit} />
+      <CounterControls dispatch={dispatch} />
+      <CounterForm dispatch={dispatch} />
     </Card>
   );
 };
